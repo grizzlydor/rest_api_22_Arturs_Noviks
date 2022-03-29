@@ -17,6 +17,8 @@
     <rest-assured.version>3.1.0</rest-assured.version>
     <jackson.version>2.9.9</jackson.version>
     <assertj.version>3.10.0</assertj.version>
+    <json-simple.version>1.1.1</json-simple.version>
+
   </properties>
 
   <dependencies>
@@ -58,6 +60,11 @@
       <artifactId>assertj-core</artifactId>
       <version>${assertj.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>${json-simple.version}</version>
     </dependency>
   </dependencies>
 
