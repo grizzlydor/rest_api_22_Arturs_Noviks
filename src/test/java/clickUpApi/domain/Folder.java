@@ -3,7 +3,7 @@ package clickUpApi.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) //ignore everything that we do not check
 public class Folder {
     @JsonProperty("name")
     private String name;

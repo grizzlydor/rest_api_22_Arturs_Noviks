@@ -4,6 +4,9 @@ import clickUpApi.helpers.TestCaseContext;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import org.json.simple.JSONObject;
+
+import static clickUpApi.clients.ClickUpClient.deleteFolder;
 
 public class Hooks {
     @Before
@@ -15,8 +18,7 @@ public class Hooks {
 
     @After
     public void afterEveryScenario(){
-        changeBoardName("Default");
-        archiveList();
+        //deleteFolder();
         System.out.println("THE SCENARIO IS FINISHED");
     }
 }

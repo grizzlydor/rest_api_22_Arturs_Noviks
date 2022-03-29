@@ -26,10 +26,10 @@ public class TestCaseContext {
     }
 
 
-    public static void setList(List testList){
+    public static void setTestList(List testList){
         TestCaseContext.testList = testList;
     }
-    public static List getList(){
+    public static List getTestList(){
         return testList;
     }
 
