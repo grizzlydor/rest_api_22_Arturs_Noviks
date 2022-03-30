@@ -6,7 +6,7 @@ import clickUpApi.domain.Task;
 import io.cucumber.java.Scenario;
 
 public class TestCaseContext {
-    private static Scenario scenario;
+    private static Scenario scenario; //with this we add info about the scenario to the test reports
     private static Folder testFolder;
     private static List testList;
     private static Task testTask;

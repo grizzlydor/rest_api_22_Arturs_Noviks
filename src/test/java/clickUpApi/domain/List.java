@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class List {
 
-    @JsonProperty("list_id")
+    @JsonProperty("id")
     private Number id;
     @JsonProperty("name")
     private String name;
