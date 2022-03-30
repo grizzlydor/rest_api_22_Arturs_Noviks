@@ -31,7 +31,7 @@ public class ClickUpSteps {
 
         Assertions.assertThat(defaultFolder.getName()) //verifying that the name is correct
                 .as("We assert that the name of the folder is correct")
-                .isEqualTo("MyFolder");
+                .isEqualTo(name);
 
         TestCaseContext.setTestFolder(defaultFolder);
         /*System.out.println("Creating a folder called " + name);*/
@@ -44,19 +44,23 @@ public class ClickUpSteps {
         obj.put("folder_id", "folderId");
         obj.put("name", "MyList");
         Response resp = createList(obj);
-        //List defaultList = resp.as(List.class);
+        List defaultList = resp.as(List.class);
 
+        TestCaseContext.setTestList(defaultList);
         /*System.out.println("Adding a theoretical list");*/
     }
 
-    @And("I verify that the list name is {string} and that it is added to {string}")
-    public void verifyList(String listName, String folderName ){
-        Response resp = getList();
-        List defaultList = resp.as(List.class);
+    @And("I verify that the list name is {string} and that it is added to the correct folder")
+    public void verifyList(String listName){
+        List defaultList = TestCaseContext.getTestList();
+        Folder defaultFolder = TestCaseContext.getTestFolder();
         Assertions.assertThat(defaultList.getName())
                 .as("We assert that the list name is correct")
-                .isEqualTo(TestCaseContext.getTestList().getName());
-
+                .isEqualTo(listName);
+        /*Assertions.assertThat(defaultList.getFolderId())
+                .as("We assert that the list is in the correct folder")
+                .isEqualTo(defaultFolder.getId());*/
+        System.out.println("The list name is " + listName +" and is was made in ");
         TestCaseContext.setTestList(defaultList);
         /*System.out.println("Verifying.....");*/
     }

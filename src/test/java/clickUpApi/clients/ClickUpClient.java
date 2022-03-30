@@ -48,11 +48,12 @@ public class ClickUpClient {
                 .statusCode(200)
                 .extract().response();
     }
-    public static Response getList(){
+    public static Response getList(JSONObject obj){
         return RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
                 .header("Authorization", API_TOKEN)
+                .body(obj)
                 .when()
                 .get("https://api.clickup.com/api/v2/list/" + TestCaseContext.getTestList().getId())
                 .then().log().all()
