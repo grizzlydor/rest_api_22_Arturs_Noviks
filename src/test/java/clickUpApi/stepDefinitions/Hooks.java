@@ -18,7 +18,7 @@ public class Hooks {
 
     @After
     public void afterEveryScenario(){
-        //deleteFolder();
+        deleteFolder();
         System.out.println("THE SCENARIO IS FINISHED");
     }
 }

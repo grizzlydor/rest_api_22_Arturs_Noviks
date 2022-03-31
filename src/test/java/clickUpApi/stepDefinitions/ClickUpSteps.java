@@ -1,6 +1,5 @@
 package clickUpApi.stepDefinitions;
 
-import clickUpApi.clients.ClickUpClient;
 import clickUpApi.domain.Folder;
 import clickUpApi.domain.List;
 import clickUpApi.domain.Task;
@@ -22,7 +21,7 @@ public class ClickUpSteps {
 
     @Given("The TestSpace exists")
     public void getSpace(){
-        Response resp = getTestSpace();
+        getTestSpace();
     }
     @When("I create a new folder called {string} and verify that the name is correct")
     public void createFolderAndVerify(String name){
@@ -52,20 +51,21 @@ public class ClickUpSteps {
 
         TestCaseContext.setTestList(defaultList);
         Scenario scenario = TestCaseContext.getScenario();
-        scenario.log("List, called \"" + listName + "\" was created int the folder, called \"" + folderName + "\".");
+        scenario.log("List, called \"" + listName + "\" was created in the folder, called \"" + folderName + "\".");
     }
 
     @And("I verify that the list name is {string} and that it is added to the correct folder")
     public void verifyList(String listName){
 
         List testList = TestCaseContext.getTestList();
+        Folder testFolder = TestCaseContext.getTestFolder();
 
         Assertions.assertThat(testList.getName())
                 .as("We assert that the list name is correct")
                 .isEqualTo(listName);
-        /*Assertions.assertThat(defaultList.getFolderId())
+        Assertions.assertThat(testList.getFolder().get("id").asInt()) //JsonNode returns the id as a string by default, that's why we specify to return it as int
                 .as("We assert that the list is in the correct folder")
-                .isEqualTo(defaultFolder.getId());*/
+                .isEqualTo(testFolder.getId());
 
         TestCaseContext.setTestList(testList);
         Scenario scenario = TestCaseContext.getScenario();
@@ -81,10 +81,10 @@ public class ClickUpSteps {
         Task testTask = resp.as(Task.class);
         TestCaseContext.setTestTask(testTask);
         Scenario scenario = TestCaseContext.getScenario();
-        scenario.log("Task with a auto generated name was created.");
+        scenario.log("Task with a auto generated name was created in \"" + listName +"\".");
     }
     @And("I verify that the task name is correct")
-    public void verifyTask(){
+    public void verifyTaskName(){
         Task testTask = TestCaseContext.getTestTask();
         List testList = TestCaseContext.getTestList();
         String taskName = TestCaseContext.getTestTask().getName();
@@ -96,11 +96,25 @@ public class ClickUpSteps {
         scenario.log("Task name \"" + taskName + "\" was verified to be unique, therefore correct.");
     }
     @Then("I remove the task from the list")
-    public void removeTask(){
-        //JSONObject obj = new JSONObject();
-        Response resp = deleteTask();
+    public void removingTask(){
+        //Response resp = removeTask();
+        deleteTask(); //Invoking a delete request
+    }
 
-        Task testTask = resp.as(Task.class);
-        TestCaseContext.setTestTask(testTask);
+    @And("I verify that the task can't be found there anymore")
+    public void reverifyTask(){
+
+        Response resp = getDeletedTask(); //getting the confirmation that the task/page does not exist
+        Task testTask = resp.as(Task.class); //saving it
+        TestCaseContext.setTestTask(testTask); //setting it as current "information" about tasks
+
+        Assertions.assertThat(TestCaseContext.getTestTask().getId()) //asserting that the current "information" about the task is non-existent/null
+                .as("Checking if the task is removed from the list")
+                .isNull();
+
+        Scenario scenario = TestCaseContext.getScenario();
+        scenario.log("Task was deleted");
+
+
     }
 }
